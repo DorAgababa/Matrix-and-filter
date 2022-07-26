@@ -1,25 +1,15 @@
 `timescale 1ns/1ps
+module multiplier(a,b, c); //8 bit multiplier
 
-module square(a,avg,outt);
-	input [7:0] a;
-	input [7:0] avg;
-	output [15:0]outt;
-	wire[7:0] result=(a>avg)? a-avg : avg-a; //abs
-	wire [15:0] post_square=result*result;
-	assign outt={2'b0,post_square[15:2]}; //divide by 4
-endmodule
-
- module average(a,b,c,d,outt);
 	input [7:0] a;
 	input [7:0] b;
-	input [7:0] c;
-	input [7:0] d;
-	output [7:0]outt;
-	wire[15:0] result=a+b+c+d;
-	assign outt=result[9:2];
+	output [7:0] c;
+	wire[15:0] ans= a * b;
+	
+	assign c= (ans[15:8] == 8'b0) ? ans : 8'b11111111;
+
 endmodule
- 
-module multiplier_24(a,b,c);
+module multiplier_24(a,b,c);// 24 bit multiplier , one line 
 	input [23:0] a;
 	input [23:0] b;
 	output [7:0] c;
@@ -31,8 +21,8 @@ module multiplier_24(a,b,c);
 
 	assign c= (ans[15:8] == 8'b0) ? ans : 8'b11111111;
 endmodule
- 
-module multiplier_3x3(a0,a1,a2,b0,b1,b2,c);
+
+module multiplier_3x3(a0,a1,a2,b0,b1,b2,c);//full iteration
 	input [23:0] a0;
 	input [23:0] a1;
 	input [23:0] a2; 
@@ -50,20 +40,30 @@ module multiplier_3x3(a0,a1,a2,b0,b1,b2,c);
 	assign c= (ans[15:8] == 8'b0) ? ans : 8'b11111111;
 endmodule
 
-
-module multiplier
-(
-	a,b, c
-);
-
+ module average(a,b,c,d,outt);
 	input [7:0] a;
 	input [7:0] b;
-	output [7:0] c;
-	wire[15:0] ans= a * b;
-	
-	assign c= (ans[15:8] == 8'b0) ? ans : 8'b11111111;
-
+	input [7:0] c;
+	input [7:0] d;
+	output [7:0]outt;
+	wire[15:0] result=a+b+c+d;
+	assign outt=result[9:2];
 endmodule
+
+module square(a,avg,outt);
+	input [7:0] a;
+	input [7:0] avg;
+	output [15:0]outt;
+	wire[7:0] result=(a>avg)? a-avg : avg-a; //abs
+	wire [15:0] post_square=result*result;
+	assign outt={2'b0,post_square[15:2]}; //divide by 4
+endmodule
+
+
+ 
+
+ 
+
 
 
 // Module Declaration
